@@ -11,8 +11,8 @@ jobs:
     with:
       java-version: 21
     secrets:
-      maven-username: ${{ secrets.MAVEN_USERNAME }}
-      maven-password: ${{ secrets.MAVEN_PASSWORD }}
+      maven-username: ${{ secrets.REPO_USERNAME }}
+      maven-password: ${{ secrets.REPO_PASSWORD }}
 #  release:
 #    name: Docker Release
 #    uses: backbase/workflows/.github/workflows/maven-docker-release.yml@v0.1.0
