@@ -1,0 +1,31 @@
+# This workflow will build a Java project with Maven
+# For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-maven
+
+name: Java CI with Maven
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  maven-build-and-verify:
+    # This job runs on Linux
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 #v4.1.1
+      - name: Setup JDK ${{ inputs.java-version }}
+        uses: actions/setup-java@387ac29b308b003ca37ba93a6cab5eb57c8f5f93 #v4.0.0
+        with:
+          distribution: temurin
+          java-version: 21
+          cache: 'maven'
+      - name: Configure Maven
+        uses: whelk-io/maven-settings-xml-action@9dc09b23833fa9aa7f27b63db287951856f3433d #v22
+        with:
+          repositories: '[{ "id": "backbase", "url": "https://repo.backbase.com/repo" }]'
+          plugin_repositories: '[{ "id": "backbase-plugins", "url": "https://repo.backbase.com/repo" }]'
+          servers: '[{ "id": "backbase", "username": "${{ secrets.REPO_USERNAME }}", "password": "${{ secrets.REPO_PASSWORD }}" },{ "id": "backbase-plugins", "username": "${{ secrets.REPO_USERNAME }}", "password": "${{ secrets.REPO_PASSWORD }}" }]'
+      - name: Maven unit (L1) and integration (L2) tests
+        run: mvn -ntp -B clean verify
