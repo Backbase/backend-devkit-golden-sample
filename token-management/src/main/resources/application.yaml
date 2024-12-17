@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: token-management
+backbase:
+  events:
+    enabled: true
+  audit:
+    enabled: true
+    mode: ASYNC
