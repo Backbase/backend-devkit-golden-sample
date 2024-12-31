@@ -1,0 +1,6 @@
+backbase:
+  activemq:
+    enabled: true
+eureka:
+  client:
+    enabled: false
